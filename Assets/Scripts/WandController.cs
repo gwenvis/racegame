@@ -24,11 +24,12 @@ namespace Controller
 
 		void Update ()
 		{
-			float trigaxis = _c.controllerState.rAxis1.y;
+			float trigaxis = _c.controllerState.rAxis1.x;
+
 
 			if (trigaxis < 0.1 && _currentlyGrabbing != null)
 			{
-				_currentlyGrabbing.StopGrab(this);
+                _currentlyGrabbing._INTERNAL_StopGrab(this);
 				_currentlyGrabbing = null;
 			}
 			else if (trigaxis > 0.1 && _currentlyGrabbing == null)
@@ -37,17 +38,18 @@ namespace Controller
 
 		void Grab()
 		{
-			// detect what it's grabbing.
-			var candidates = Physics.SphereCastAll(transform.position, 2, transform.forward, Mathf.Infinity);
+            // detect what it's grabbing.
+			var candidates = Physics.SphereCastAll(transform.position, 0.2f, transform.forward, Mathf.Infinity);
 
 			foreach (var candidate in candidates)
 			{
 				Grabbable g = candidate.collider.gameObject.GetComponent<Grabbable>();
 
 				if (!g) continue;
-				
-				g.StartGrab(this);
+
+                g._INTERNAL_StartGrab(this);
 				_currentlyGrabbing = g;
+                
 				break;
 			}
 		}

@@ -15,7 +15,12 @@ namespace Controller
             controller.HideControllerModel();
             int i = controller.isLeftHand ? 0 : 1;
             hands[i].SetActive(true);
+
+            // TODO: spawn the hand as close as possible to the edge of the steering wheel and as close as possible to the player.
+            // I have no idea how heh.
         }
+
+
 
         public override void StopGrab(WandController controller)
         {
