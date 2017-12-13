@@ -6,32 +6,55 @@ using Valve.VR;
 
 namespace Controller
 {
+	/// Author: Antonio Bottelier
+	/// You will die instantly if you copy this. 
+
 	public class WandController : MonoBehaviour
 	{
+		public bool isLeftHand;
 		private SteamVR_TrackedController _c;
+		private Grabbable _currentlyGrabbing;
+		private GameObject _model;
 		
 		void Start ()
 		{
 			_c = GetComponent<SteamVR_TrackedController>();
+			_model = transform.Find("Model").gameObject;
 		}
 
 		void Update ()
 		{
-			var states = new VRControllerAxis_t[]
-			{
-				_c.controllerState.rAxis0,
-				_c.controllerState.rAxis1,
-				_c.controllerState.rAxis2,
-				_c.controllerState.rAxis3,
-				_c.controllerState.rAxis4
-			};
+			float trigaxis = _c.controllerState.rAxis1.y;
 
-			for (int i = 0; i < states.Length; i++)
+			if (trigaxis < 0.1 && _currentlyGrabbing != null)
 			{
-				var state = states[i];
-				
-				Debug.Log(string.Format("Axis {0} - x: {0} y: {1}", i, state.x, state.y));
+				_currentlyGrabbing.StopGrab(this);
+				_currentlyGrabbing = null;
 			}
+			else if (trigaxis > 0.1 && _currentlyGrabbing == null)
+				Grab();
+		}
+
+		void Grab()
+		{
+			// detect what it's grabbing.
+			var candidates = Physics.SphereCastAll(transform.position, 2, transform.forward, Mathf.Infinity);
+
+			foreach (var candidate in candidates)
+			{
+				Grabbable g = candidate.collider.gameObject.GetComponent<Grabbable>();
+
+				if (!g) continue;
+				
+				g.StartGrab(this);
+				_currentlyGrabbing = g;
+				break;
+			}
+		}
+
+		public void HideControllerModel(bool hide = true)
+		{
+			_model.SetActive(!hide);
 		}
 	}
 }
