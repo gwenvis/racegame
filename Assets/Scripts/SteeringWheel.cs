@@ -25,7 +25,7 @@ namespace Controller
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
             Vector3 rotation;
-            hands[i].transform.position = GetCircleEdgeCollision(controller.transform.position, out rotation);
+            hands[i].transform.localPosition = GetCircleEdgeCollision(controller.transform.position, out rotation);
             hands[i].transform.eulerAngles = rotation;
         }
 
