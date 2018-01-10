@@ -39,7 +39,7 @@ namespace Controller
 		void Grab()
 		{
             // detect what it's grabbing.
-			var candidates = Physics.SphereCastAll(transform.position, 0.2f, transform.forward, Mathf.Infinity);
+			var candidates = Physics.SphereCastAll(transform.position, 0.1f, transform.forward, Mathf.Infinity);
 
 			foreach (var candidate in candidates)
 			{

@@ -24,7 +24,9 @@ namespace Controller
             int i = controller.isLeftHand ? 0 : 1;
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
-            SetPosition(controller.transform.position);
+            Vector3 rotation;
+            hands[i].transform.position = GetCircleEdgeCollision(controller.transform.position, out rotation);
+            hands[i].transform.eulerAngles = rotation;
         }
 
         void Start()
@@ -32,7 +34,7 @@ namespace Controller
             hands.ForEach(x => x.SetActive(false));
         }
 
-        Vector3 SetPosition(Vector3 pos)
+        Vector3 GetCircleEdgeCollision(Vector3 pos, out Vector3 rotation)
         {
             // map track pos to local space
             var trackp = transform.InverseTransformPoint(transform.position);
@@ -48,6 +50,8 @@ namespace Controller
             // I use z instead of y, though.
             float cx = position.x + radius * a / mag;
             float cz = position.z + radius * b / mag;
+            
+            // get the needed (z?) angle for the rotation to be correct.
 
             return transform.TransformVector(new Vector3(cx, 0, cz));
         }
