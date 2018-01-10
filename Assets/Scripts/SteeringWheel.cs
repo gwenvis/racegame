@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 namespace Controller
 {
@@ -16,11 +17,6 @@ namespace Controller
         }
         
         private float radius = 0.3f;
-
-        private void Start()
-        {
-            
-        }
         
         public override void StartGrab(WandController controller)
         {
@@ -29,6 +25,11 @@ namespace Controller
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
             SetPosition(controller.transform.position);
+        }
+
+        void Start()
+        {
+            hands.ForEach(x => x.SetActive(false));
         }
 
         Vector3 SetPosition(Vector3 pos)
