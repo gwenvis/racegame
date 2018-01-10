@@ -25,7 +25,8 @@ namespace Controller
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
             Vector3 rotation;
-            hands[i].transform.localPosition = GetCircleEdgeCollision(controller.transform.position, out rotation);
+            hands[i].transform.localPosition = transform.position + 
+                     GetCircleEdgeCollision(controller.transform.position, out rotation);
             hands[i].transform.eulerAngles = rotation;
         }
 
@@ -34,28 +35,24 @@ namespace Controller
             hands.ForEach(x => x.SetActive(false));
         }
 
-        Vector3 GetCircleEdgeCollision(Vector3 pos, out Vector3 rotation)
+        Vector3 GetCircleEdgeCollision(Vector3 track, out Vector3 rotation)
         {
             // map track pos to local space
-            var temptarget = transform.parent;
-            transform.parent = null;
-            var trackp = transform.InverseTransformPoint(transform.position);
+            var controllerpos = transform.InverseTransformPoint(track);
             // also map current pos to local space.
-            var position = transform.InverseTransformPoint(pos);
+            var localCirclePos = transform.InverseTransformPoint(transform.position);
+            controllerpos = controllerpos - localCirclePos;
 		
-            var a = trackp.x - position.x;
-            var b = trackp.z - position.z;
+            var a = controllerpos.x - localCirclePos.x;
+            var b = controllerpos.z - localCirclePos.z;
             var mag = Mathf.Sqrt(a * a + b * b);
-
+		
             // the formula is 
             // C(x,y) = A(x,y) + r * B(x,y) - A(x,y) / √ (Bx - Ax)^2 + (By - Ay)^2
-            // I use z instead of y, though.
-            float cx = position.x + radius * a / mag;
-            float cz = position.z + radius * b / mag;
-            
-            // get the needed (z?) angle for the rotation to be correct.
+            float cx = localCirclePos.x + radius * a / mag;
+            float cz = localCirclePos.z + radius * b / mag;
+
             rotation = Vector3.zero;
-            transform.parent = temptarget;
             return transform.TransformVector(new Vector3(cx, 0, cz));
         }
 
@@ -67,7 +64,11 @@ namespace Controller
             foreach (var controller in controllers)
             {
                 if (controller.Controller != null)
+                {
+                    var vector = controller.LastPosition - controller.Position;
+                    
                     controller.SetLastPosition(controller.Position);
+                }
             }
         }
 
