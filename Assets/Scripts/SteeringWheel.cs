@@ -52,7 +52,7 @@ namespace Controller
             float cz = position.z + radius * b / mag;
             
             // get the needed (z?) angle for the rotation to be correct.
-
+            rotation = Vector3.zero;
             return transform.TransformVector(new Vector3(cx, 0, cz));
         }
 
