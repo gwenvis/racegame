@@ -25,7 +25,7 @@ namespace Controller
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
             Vector3 rotation;
-            hands[i].transform.position = GetCircleEdgeCollision(controller.transform.position, out rotation);
+            hands[i].transform.localPosition = GetCircleEdgeCollision(controller.transform.position, out rotation);
             hands[i].transform.eulerAngles = rotation;
         }
 
@@ -37,6 +37,8 @@ namespace Controller
         Vector3 GetCircleEdgeCollision(Vector3 pos, out Vector3 rotation)
         {
             // map track pos to local space
+            var temptarget = transform.parent;
+            transform.parent = null;
             var trackp = transform.InverseTransformPoint(transform.position);
             // also map current pos to local space.
             var position = transform.InverseTransformPoint(pos);
@@ -53,6 +55,7 @@ namespace Controller
             
             // get the needed (z?) angle for the rotation to be correct.
             rotation = Vector3.zero;
+            transform.parent = temptarget;
             return transform.TransformVector(new Vector3(cx, 0, cz));
         }
 
