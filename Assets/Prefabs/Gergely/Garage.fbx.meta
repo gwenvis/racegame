@@ -1,0 +1,224 @@
+fileFormatVersion: 2
+guid: b31ae288852938c43bc698399a23cc2d
+timeCreated: 1515591736
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: barrel
+    100002: bucket
+    100004: crate_1
+    100006: crate_2
+    100008: Cylinder_1
+    100010: drawer
+    100012: electric_box
+    100014: electrical_wires_2
+    100016: floor
+    100018: //RootNode
+    100020: Lamp
+    100022: map
+    100024: pipes
+    100026: poaster_1
+    100028: poaster_2
+    100030: poaster_3
+    100032: poaster_4
+    100034: poaster_5
+    100036: roof
+    100038: shelves
+    100040: Staircase
+    100042: table
+    100044: tire_s
+    100046: tool_plate
+    100048: trash_can
+    100050: tube_ligh_small
+    100052: Tube_light_big
+    100054: walls_1
+    100056: window
+    100058: wood_crates
+    400000: barrel
+    400002: bucket
+    400004: crate_1
+    400006: crate_2
+    400008: Cylinder_1
+    400010: drawer
+    400012: electric_box
+    400014: electrical_wires_2
+    400016: floor
+    400018: //RootNode
+    400020: Lamp
+    400022: map
+    400024: pipes
+    400026: poaster_1
+    400028: poaster_2
+    400030: poaster_3
+    400032: poaster_4
+    400034: poaster_5
+    400036: roof
+    400038: shelves
+    400040: Staircase
+    400042: table
+    400044: tire_s
+    400046: tool_plate
+    400048: trash_can
+    400050: tube_ligh_small
+    400052: Tube_light_big
+    400054: walls_1
+    400056: window
+    400058: wood_crates
+    2300000: barrel
+    2300002: bucket
+    2300004: crate_1
+    2300006: crate_2
+    2300008: Cylinder_1
+    2300010: drawer
+    2300012: electric_box
+    2300014: electrical_wires_2
+    2300016: floor
+    2300018: Lamp
+    2300020: map
+    2300022: pipes
+    2300024: poaster_1
+    2300026: poaster_2
+    2300028: poaster_3
+    2300030: poaster_4
+    2300032: poaster_5
+    2300034: roof
+    2300036: shelves
+    2300038: Staircase
+    2300040: table
+    2300042: tire_s
+    2300044: tool_plate
+    2300046: trash_can
+    2300048: tube_ligh_small
+    2300050: Tube_light_big
+    2300052: walls_1
+    2300054: window
+    2300056: wood_crates
+    3300000: barrel
+    3300002: bucket
+    3300004: crate_1
+    3300006: crate_2
+    3300008: Cylinder_1
+    3300010: drawer
+    3300012: electric_box
+    3300014: electrical_wires_2
+    3300016: floor
+    3300018: Lamp
+    3300020: map
+    3300022: pipes
+    3300024: poaster_1
+    3300026: poaster_2
+    3300028: poaster_3
+    3300030: poaster_4
+    3300032: poaster_5
+    3300034: roof
+    3300036: shelves
+    3300038: Staircase
+    3300040: table
+    3300042: tire_s
+    3300044: tool_plate
+    3300046: trash_can
+    3300048: tube_ligh_small
+    3300050: Tube_light_big
+    3300052: walls_1
+    3300054: window
+    3300056: wood_crates
+    4300000: Cylinder_1
+    4300002: walls_1
+    4300004: roof
+    4300006: floor
+    4300008: window
+    4300010: barrel
+    4300012: wood_crates
+    4300014: map
+    4300016: drawer
+    4300018: electric_box
+    4300020: tube_ligh_small
+    4300022: Tube_light_big
+    4300024: bucket
+    4300026: electrical_wires_2
+    4300028: Lamp
+    4300030: tire_s
+    4300032: tool_plate
+    4300034: crate_2
+    4300036: crate_1
+    4300038: trash_can
+    4300040: poaster_5
+    4300042: poaster_4
+    4300044: poaster_3
+    4300046: poaster_2
+    4300048: poaster_1
+    4300050: shelves
+    4300052: table
+    4300054: Staircase
+    4300056: pipes
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
