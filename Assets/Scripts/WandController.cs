@@ -19,13 +19,14 @@ namespace Controller
 		void Start ()
 		{
 			_c = GetComponent<SteamVR_TrackedController>();
-			_model = transform.Find("Model").gameObject;
+            _model = transform.Find("hand open").gameObject;
+            transform.Find("Model").gameObject.SetActive(false);
 		}
 
 		void Update ()
 		{
 			float trigaxis = _c.controllerState.rAxis1.x;
-
+            Debug.Log(trigaxis);
 
 			if (trigaxis < 0.1 && _currentlyGrabbing != null)
 			{
@@ -53,6 +54,11 @@ namespace Controller
 				break;
 			}
 		}
+
+        public void HideHands(bool hide = true)
+        {
+
+        }
 
 		public void HideControllerModel(bool hide = true)
 		{
