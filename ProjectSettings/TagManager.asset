@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Track
+  - Target
   layers:
   - Default
   - TransparentFX

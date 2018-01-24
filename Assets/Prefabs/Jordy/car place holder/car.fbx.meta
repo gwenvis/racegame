@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1786a0ffcccf35a42a0ae018fbce2eb4
-timeCreated: 1515603191
+guid: 13c4a9a783995084682dcc952b85dfb4
+timeCreated: 1516201870
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,15 +9,13 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: pixat_ball:Mesh
-    6400000: //RootNode
-    9500000: //RootNode
+    4300000: low_1
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: phong1
-    second: {fileID: 2100000, guid: 5ce0e5d4d968fe5499acae83e2a356f4, type: 2}
+      name: No Name
+    second: {fileID: 2100000, guid: 5c0d6b9d405f7d249b144cbf44c17e11, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -49,7 +47,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -89,7 +87,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
