@@ -97,8 +97,7 @@ namespace Controller
 
                     var rotation = transform.localEulerAngles;
                     rotation.y += angledifference;
-                    transform.localRotation = Quaternion.Lerp(transform.rotation,
-                        Quaternion.Euler(rotation), 10 * Time.deltaTime);
+                    transform.localEulerAngles = rotation;
                     break;
             }
         }
@@ -150,6 +149,7 @@ namespace Controller
         {
             lastPosition = cont.transform.position;
             controller = cont;
+            initialAngle = 0;
         }
     }
 }
