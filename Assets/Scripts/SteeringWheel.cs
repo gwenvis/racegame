@@ -24,9 +24,23 @@ namespace Controller
             int i = controller.isLeftHand ? 0 : 1;
             hands[i].SetActive(true);
             controllers[i].Controller = controller;
+            controllers[i].SetLastPosition(controllers[i].Controller.transform.position);
+
+            Vector3 controllerpos = controllers[i].Controller.transform.position;
+            Vector3 middlePoint = transform.position;
+            Vector3 topPoint = transform.position + -transform.forward * radius;
+            controllers[i].InitialAngle = GetAngle(controllerpos, topPoint, middlePoint);
+            
             hands[i].transform.position = transform.position + 
                      GetCircleEdgeCollision(controller.transform.position);
             hands[i].transform.rotation = Quaternion.LookRotation(hands[i].transform.position - transform.position, hands[i].transform.up);
+        }
+
+        float GetAngle(Vector3 controllerpos, Vector3 topPoint, Vector3 middlePoint)
+        {
+            float opposite = (middlePoint - topPoint).magnitude;
+            float neighbor = (middlePoint - controllerpos).magnitude;
+            return Mathf.Atan2(opposite, neighbor) * Mathf.Rad2Deg;
         }
 
         void Start()
@@ -68,6 +82,25 @@ namespace Controller
                     controller.SetLastPosition(controller.Position);
                 }
             }
+
+            switch (controllercount)
+            {
+                case 1:
+                    var controller = controllers.First(x => x.Controller != null);
+                    
+                    Vector3 controllerpos = controller.Controller.transform.position;
+                    Vector3 middlePoint = transform.position;
+                    Vector3 topPoint = transform.position + -transform.forward * radius;
+                    float angle = GetAngle(controllerpos, topPoint, middlePoint);
+                    float angledifference = controller.InitialAngle - angle;
+                    controller.InitialAngle = angle;
+
+                    var rotation = transform.localEulerAngles;
+                    rotation.y += angledifference;
+                    transform.localRotation = Quaternion.Lerp(transform.rotation,
+                        Quaternion.Euler(rotation), 10 * Time.deltaTime);
+                    break;
+            }
         }
 
         public override void StopGrab(WandController controller)
@@ -83,10 +116,17 @@ namespace Controller
     {
         private WandController controller;
         private Vector3 lastPosition;
+        private float initialAngle;
 
         public Vector3 Position
         {
             get { return controller.transform.position; }
+        }
+
+        public float InitialAngle
+        {
+            get { return initialAngle; }
+            set { initialAngle = value; }
         }
 
         public WandController Controller
