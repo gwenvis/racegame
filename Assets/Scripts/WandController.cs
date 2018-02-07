@@ -26,7 +26,6 @@ namespace Controller
 		void Update ()
 		{
 			float trigaxis = _c.controllerState.rAxis1.x;
-            Debug.Log(trigaxis);
 
 			if (trigaxis < 0.1 && _currentlyGrabbing != null)
 			{

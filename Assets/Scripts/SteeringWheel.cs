@@ -8,6 +8,8 @@ namespace Controller
 
     public class SteeringWheel : Grabbable
     {
+        public float Rotation { get; private set; }
+
         public GameObject[] hands;
         private GrabbingController[] controllers = new GrabbingController[2]; // 0 is left, 1 is right
 
@@ -15,38 +17,42 @@ namespace Controller
         {
             get { return controllers.Count(x => x.Controller != null); }
         }
-        
+
         private float radius = 1f / 2; //diameter / 2
-        
+        Vector3 up;
+
+        void Start()
+        {
+            up = transform.forward;
+            hands.ForEach(x => x.SetActive(false));
+            for (int i = 0; i < controllers.Length; i++)
+            {
+                controllers[i] = new GrabbingController();
+            }
+        }
+
         public override void StartGrab(WandController controller)
         {
+            
             controller.HideControllerModel();
             int i = controller.isLeftHand ? 0 : 1;
             hands[i].SetActive(true);
+            
             controllers[i].Controller = controller;
             controllers[i].SetLastPosition(controllers[i].Controller.transform.position);
-
-            Vector3 controllerpos = controllers[i].Controller.transform.position;
-            Vector3 middlePoint = transform.position;
-            Vector3 topPoint = transform.position + -transform.forward * radius;
-            controllers[i].InitialAngle = GetAngle(controllerpos, topPoint, middlePoint);
             
             hands[i].transform.position = transform.position + 
                      GetCircleEdgeCollision(controller.transform.position);
             hands[i].transform.rotation = Quaternion.LookRotation(hands[i].transform.position - transform.position, hands[i].transform.up);
         }
 
-        float GetAngle(Vector3 controllerpos, Vector3 topPoint, Vector3 middlePoint)
+        float GetAngle(Vector3 from, Vector3 to)
         {
-            float opposite = (middlePoint - topPoint).magnitude;
-            float neighbor = (middlePoint - controllerpos).magnitude;
-            return Mathf.Atan2(opposite, neighbor) * Mathf.Rad2Deg;
+            Vector3 O = to - from;
+            Vector3 A = transform.position - from;
+            return Mathf.Atan2(Mathf.Abs(O.magnitude), Mathf.Abs(A.magnitude) ) * Mathf.Rad2Deg;
         }
-
-        void Start()
-        {
-            hands.ForEach(x => x.SetActive(false));
-        }
+        
 
         Vector3 GetCircleEdgeCollision(Vector3 track)
         {
@@ -68,36 +74,62 @@ namespace Controller
             Vector3 returnvec =  transform.TransformVector(new Vector3(cx, 0, cz));
             return returnvec;
         }
-
+        public float speeee = 4;
         private void Update()
         {
             int controllercount = ControllersGrabbed;
-            
-            foreach (var controller in controllers)
-            {
-                if (controller.Controller != null)
-                {
-                    var vector = controller.LastPosition - controller.Position;
-                    
-                    controller.SetLastPosition(controller.Position);
-                }
-            }
+            GrabbingController controller;
+            Vector3 from;
+            Vector3 to;
+            float angle;
+            float sign;
+            GameObject hand;
 
             switch (controllercount)
             {
                 case 1:
-                    var controller = controllers.First(x => x.Controller != null);
-                    
-                    Vector3 controllerpos = controller.Controller.transform.position;
-                    Vector3 middlePoint = transform.position;
-                    Vector3 topPoint = transform.position + -transform.forward * radius;
-                    float angle = GetAngle(controllerpos, topPoint, middlePoint);
-                    float angledifference = controller.InitialAngle - angle;
-                    controller.InitialAngle = angle;
+                    controller = controllers.First(x => x.Controller != null);
+                   
+                    to = GetCircleEdgeCollision(controller.Controller.transform.position);
+                    from = GetCircleEdgeCollision(controller.LastPosition);
+                    angle = GetAngle(from, to);
+                    sign = Mathf.Sign(from.x * -to.y + from.y * to.x);
 
-                    var rotation = transform.localEulerAngles;
-                    rotation.y += angledifference;
-                    transform.localEulerAngles = rotation;
+                    transform.Rotate(0, -angle * sign * speeee, 0, Space.Self);
+
+                    hand = controller.Controller.isLeftHand ? hands[0] : hands[1];
+
+                    hand.transform.position = transform.position +
+                     GetCircleEdgeCollision(controller.Controller.transform.position);
+                    hand.transform.rotation = Quaternion.LookRotation(hand.transform.position - transform.position, hand.transform.up);
+
+                    controller.LastPosition = controller.Position;
+
+                    Rotation += -angle * sign * speeee;
+
+                    break;
+                case 2:
+                    for(int i = 0; i < controllers.Length; i++)
+                    {
+                        controller = controllers[i];
+
+                        to = GetCircleEdgeCollision(controller.Controller.transform.position);
+                        from = GetCircleEdgeCollision(controller.LastPosition);
+                        angle = GetAngle(from, to);
+                        sign = Mathf.Sign(from.x * -to.y + from.y * to.x);
+
+                        transform.Rotate(0, -angle * sign * (speeee / 2), 0, Space.Self);
+
+                        hand = controller.Controller.isLeftHand ? hands[0] : hands[1];
+
+                        hand.transform.position = transform.position +
+                         GetCircleEdgeCollision(controller.Controller.transform.position);
+                        hand.transform.rotation = Quaternion.LookRotation(hand.transform.position - transform.position, hand.transform.up);
+
+                        Rotation += -angle * sign * (speeee / 2);
+
+                        controller.LastPosition = controller.Position;
+                    }
                     break;
             }
         }
@@ -111,7 +143,7 @@ namespace Controller
         }
     }
 
-    struct GrabbingController
+    class GrabbingController
     {
         private WandController controller;
         private Vector3 lastPosition;
@@ -145,10 +177,10 @@ namespace Controller
             lastPosition = pos;
         }
 
-        public GrabbingController(WandController cont)
+        public GrabbingController()
         {
-            lastPosition = cont.transform.position;
-            controller = cont;
+            lastPosition = Vector3.zero;
+            controller = null;
             initialAngle = 0;
         }
     }
