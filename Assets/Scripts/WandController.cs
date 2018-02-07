@@ -15,6 +15,9 @@ namespace Controller
 		private SteamVR_TrackedController _c;
 		private Grabbable _currentlyGrabbing;
 		private GameObject _model;
+
+        public static float Accel;
+        public static float Brake;
 		
 		void Start ()
 		{
@@ -26,6 +29,20 @@ namespace Controller
 		void Update ()
 		{
 			float trigaxis = _c.controllerState.rAxis1.x;
+
+            var device = SteamVR_Controller.Input((int)_c.controllerIndex);
+
+            if(device.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+            {
+                if (isLeftHand) Brake = -1;
+                else Accel = 1;
+            }
+            else
+            {
+                if (isLeftHand) Brake = 0;
+                else Accel = 0;
+            }
+            
 
 			if (trigaxis < 0.1 && _currentlyGrabbing != null)
 			{

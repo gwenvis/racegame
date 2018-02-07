@@ -20,9 +20,11 @@ namespace Controller
 
         private float radius = 1f / 2; //diameter / 2
         Vector3 up;
+        Vector3 oldpos;
 
         void Start()
         {
+            oldpos = transform.position;
             up = transform.forward;
             hands.ForEach(x => x.SetActive(false));
             for (int i = 0; i < controllers.Length; i++)
@@ -39,7 +41,7 @@ namespace Controller
             hands[i].SetActive(true);
             
             controllers[i].Controller = controller;
-            controllers[i].SetLastPosition(controllers[i].Controller.transform.position);
+            controllers[i].SetLastPosition((controllers[i].Position));
             
             hands[i].transform.position = transform.position + 
                      GetCircleEdgeCollision(controller.transform.position);
@@ -89,11 +91,15 @@ namespace Controller
             {
                 case 1:
                     controller = controllers.First(x => x.Controller != null);
-                   
-                    to = GetCircleEdgeCollision(controller.Controller.transform.position);
-                    from = GetCircleEdgeCollision(controller.LastPosition);
+
+                    Vector3 controllerpos = controller.Position;
+                    Vector3 lastPos = transform.TransformVector(controller.LastPosition);
+                    to = GetCircleEdgeCollision(controllerpos);
+                    from = GetCircleEdgeCollision(lastPos);
                     angle = GetAngle(from, to);
                     sign = Mathf.Sign(from.x * -to.y + from.y * to.x);
+
+                    if (transform.eulerAngles.y < 0) angle = -angle;
 
                     transform.Rotate(0, -angle * sign * speeee, 0, Space.Self);
 
@@ -103,9 +109,9 @@ namespace Controller
                      GetCircleEdgeCollision(controller.Controller.transform.position);
                     hand.transform.rotation = Quaternion.LookRotation(hand.transform.position - transform.position, hand.transform.up);
 
-                    controller.LastPosition = controller.Position;
+                    controller.LastPosition = transform.InverseTransformVector(controllerpos);
 
-                    Rotation += -angle * sign * speeee;
+                    Rotation += angle * sign * speeee / 360;
 
                     break;
                 case 2:
@@ -126,12 +132,14 @@ namespace Controller
                          GetCircleEdgeCollision(controller.Controller.transform.position);
                         hand.transform.rotation = Quaternion.LookRotation(hand.transform.position - transform.position, hand.transform.up);
 
-                        Rotation += -angle * sign * (speeee / 2);
+                        Rotation += angle * sign * (speeee / 2) / 360;
 
                         controller.LastPosition = controller.Position;
                     }
                     break;
             }
+
+            oldpos = transform.position;
         }
 
         public override void StopGrab(WandController controller)
